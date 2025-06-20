@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
+ <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap">
+<style>
+  body {font-family:'Poppins',sans-serif;background:linear-gradient(to right,#e6f0ff,#f4f7ff);margin:0;}
+  .dashboard-container {
+    max-width: 900px; margin: 36px auto; background: #fff;
+    border-radius: 16px; box-shadow: 0 4px 18px rgba(44,62,80,0.10); padding: 30px;
+  }
+  h1 { color: #2b3e8d; margin-bottom: 18px; text-align: center;}
+  .card {background: #f9faff;padding:22px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.06);margin-bottom: 24px;}
+  .form-group {margin-bottom:14px;display:flex;flex-direction:column;}
+  .form-group label {font-weight:500;color:#2b3e8d;margin-bottom:4px;}
+  .form-group input {border:1px solid #dbe2ef;border-radius:7px;padding:9px 12px;font-size:1rem;background:#f4f7ff;}
+  .form-group input:focus {border:1.6px solid #2b3e8d;}
+  button {background:#2b3e8d;color:#fff;font-weight:600;border:none;padding:11px 17px;border-radius:7px;font-size:1.07rem;margin-top:7px;cursor:pointer;transition:background 0.2s;}
+  button:hover {background:#173065;}
+  .result-table {width:100%;border-collapse:collapse;margin-top:12px;background:#f7f7fb;border-radius:10px;overflow:hidden;box-shadow:0 1px 7px rgba(44,62,80,0.08);}
+  .result-table th, .result-table td {padding:11px 12px;border-bottom:1px solid #e3eafc;text-align:left;}
+  .result-table th {background:#2b3e8d;color:#fff;font-weight:500;}
+  .result-table tr:last-child td {border-bottom:none;}
+  .charts-flex {display:flex;gap:36px;margin-top:26px;flex-wrap:wrap;justify-content:space-between;}
+  .chart-card {flex:1;min-width:270px;max-width:450px;background:#eef4fb;border-radius:12px;padding:19px 18px 18px 18px;box-shadow:0 2px 8px rgba(70,90,154,0.06);text-align:center;margin-bottom:20px;}
+  .chart-card h3 {color:#2b3e8d;margin-bottom:12px;font-size:1.13em;font-weight:600;}
+  @media (max-width:900px) {.charts-flex{flex-direction:column;gap:18px;}.chart-card{max-width:100%;}.dashboard-container{padding:18px 5vw;}}
+</style>
+  <button class="sidebar-menu-button">
+    <span class="material-symbols-rounded">menu</span>
+  </button>
+  <aside class="sidebar">
+    <!-- ... header logo, toggler, nav ... -->
+    <header class="sidebar-header">
+      <a href="#" class="header-logo">
+        <video autoplay loop muted playsinline class="logo-video-square">
+          <source src="/assets/src/logo.mp4" type="video/mp4">
+        </video>
+        <video autoplay loop muted playsinline class="logo-video-landscape">
+          <source src="/assets/src/logo2.mp4" type="video/mp4">
+        </video>
+      </a>
+      <button class="sidebar-toggler">
+        <span class="material-symbols-rounded">chevron_left</span>
+      </button>
+    </header>
+    <div class="page-header">
+      <span class="user-name">Maulana Dwi Prasetya | 241011400102</span>
+    </div>
+    <nav class="sidebar-nav">
+      <ul class="nav-list primary-nav">
+        <li class="nav-item">
+          <a href="/dashboard.html" class="nav-link">
+            <span class="material-symbols-rounded">dashboard</span>
+            <span class="nav-label">Dashboard</span>
+          </a>
+          <ul class="dropdown-menu">
+            <li class="nav-item"><a class="nav-link dropdown-title">Dashboard</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown-container" id="auto-tugas-dropdown"></li>
+      </ul>
+    </nav>
+  </aside>
+<div class="dashboard-container">
+  <h1>Dashboard Penjualan</h1>
+
+  <div class="card">
+    <form id="formDataBarang" autocomplete="off">
+      <div class="form-group"><label for="namaBarang">Nama Barang</label>
+        <input type="text" id="namaBarang" required placeholder="Misal: Pulpen Kupu-Kupu">
+      </div>
+      <div class="form-group"><label for="hargaBarang">Harga Satuan</label>
+        <input type="number" id="hargaBarang" required min="0" step="100" placeholder="Masukkan harga">
+      </div>
+      <div class="form-group"><label for="barangMasuk">Barang Masuk</label>
+        <input type="number" id="barangMasuk" min="0" value="0" required></div>
+      <div class="form-group"><label for="stokAwal">Stok Awal</label>
+        <input type="number" id="stokAwal" min="0" value="0" required></div>
+      <div class="form-group"><label for="barangKeluar">Barang Keluar</label>
+        <input type="number" id="barangKeluar" min="0" value="0" required></div>
+      <button type="submit">Tambah Data Barang</button>
+    </form>
+  </div>
+
+  <!-- Output Table -->
+  <div class="card" id="hasilCard" style="display:none;">
+    <h2>Rekap Semua Barang</h2>
+    <table class="result-table" id="resultTable">
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>Nama Barang</th>
+          <th>Harga Satuan</th>
+          <th>Masuk</th>
+          <th>Stok Awal</th>
+          <th>Keluar (Terjual)</th>
+          <th>Stok Akhir</th>
+          <th>Pendapatan</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody><!-- Diisi otomatis JS --></tbody>
+    </table>
+  </div>
+
+  <!-- Charts -->
+  <div class="charts-flex" id="chartsRow" style="display:none;">
+    <div class="chart-card">
+      <h3>Diagram Batang Stok Akhir</h3>
+      <canvas id="barChart" height="210"></canvas>
+    </div>
+    <div class="chart-card">
+      <h3>Diagram Lingkaran Pendapatan</h3>
+      <canvas id="pieChart" height="210"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+let allBarang = []; // List semua produk
+let barChart, pieChart;
+
+document.getElementById('formDataBarang').onsubmit = function(e){
+  e.preventDefault();
+  const nama = document.getElementById('namaBarang').value.trim();
+  const harga = parseInt(document.getElementById('hargaBarang').value)||0;
+  const masuk = parseInt(document.getElementById('barangMasuk').value)||0;
+  const awal = parseInt(document.getElementById('stokAwal').value)||0;
+  const keluar = parseInt(document.getElementById('barangKeluar').value)||0;
+  const akhir = awal + masuk - keluar;
+  const terjual = keluar;
+  const pendapatan = terjual * harga;
+  allBarang.push({
+    nama, harga, masuk, awal, keluar, akhir: akhir<0?0:akhir,
+    terjual, pendapatan, color: randomColor()
+  });
+
+  // reset form
+  document.getElementById('formDataBarang').reset();
+
+  // tampilkan tabel & chart
+  renderTable();
+  renderCharts();
+
+  document.getElementById('hasilCard').style.display = "";
+  document.getElementById('chartsRow').style.display = "";
+};
+
+function renderTable(){
+  const tbody = document.querySelector('#resultTable tbody');
+  tbody.innerHTML = "";
+  allBarang.forEach((b,i)=>{
+    tbody.innerHTML += `<tr>
+      <td>${i+1}</td>
+      <td>${b.nama}</td>
+      <td>Rp${b.harga.toLocaleString()}</td>
+      <td>${b.masuk}</td>
+      <td>${b.awal}</td>
+      <td>${b.keluar}</td>
+      <td>${b.akhir}</td>
+      <td>Rp${b.pendapatan.toLocaleString()}</td>
+      <td><button onclick="hapusBarang(${i})" style="background:#e53935;padding:6px 11px;font-size:0.93em;border:none;border-radius:4px;color:#fff;">Hapus</button></td>
+    </tr>`;
+  });
+}
+window.hapusBarang = function(idx){
+  allBarang.splice(idx,1);
+  renderTable();
+  renderCharts();
+  if(allBarang.length==0){
+    document.getElementById('hasilCard').style.display = "none";
+    document.getElementById('chartsRow').style.display = "none";
+  }
+};
+
+function renderCharts(){
+  if(!allBarang.length) return;
+  // Bar Chart: stok akhir per produk
+  if(barChart) barChart.destroy();
+  const ctxBar = document.getElementById('barChart').getContext('2d');
+  barChart = new Chart(ctxBar, {
+    type: 'bar',
+    data: {
+      labels: allBarang.map(b=>b.nama),
+      datasets: [
+        {label:"Stok Akhir",data:allBarang.map(b=>b.akhir), backgroundColor:allBarang.map(b=>b.color)}
+      ]
+    },
+    options: {
+      responsive:true,
+      plugins:{legend:{position:'bottom',labels:{font:{size:13}}}},
+      scales:{y:{beginAtZero:true,grid:{color:"#e0e7ff"}}}
+    }
+  });
+  // Pie chart: komposisi pendapatan
+  if(pieChart) pieChart.destroy();
+  const ctxPie = document.getElementById('pieChart').getContext('2d');
+  pieChart = new Chart(ctxPie, {
+    type:'pie',
+    data:{
+      labels:allBarang.map(b=>b.nama),
+      datasets:[{
+        data:allBarang.map(b=>b.pendapatan),
+        backgroundColor:allBarang.map(b=>b.color)
+      }]
+    },
+    options:{
+      responsive:true,
+      plugins:{legend:{position:'bottom',labels:{font:{size:13}}}}
+    }
+  });
+}
+
+function randomColor(){
+  // Warna pastel random
+  const h = Math.floor(Math.random()*360);
+  return `hsl(${h}, 65%, 68%)`;
+}
+</script>
+
+
+  <script src="/script.js"></script>
+  <script>
+    generateSidebarListTugas();
+    attachSidebarEvents();
+  </script>
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pertemuan 5: Algoritma Pembuatan Kurva Bezier</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded"
+    />
+  </head>
+  <style>
+#tabelHasil {
+  border-collapse: collapse;
+  margin-top: 8px;
+  font-size: 0.98em;
+}
+#tabelHasil th, #tabelHasil td {
+  border: 1px solid #bfc5d2;
+  padding: 6px 12px;
+  text-align: right;
+}
+#tabelHasil th {
+  background: #eef2ff;
+  font-weight: 600;
+}
+#tabelHasil tr:nth-child(even) td {
+  background: #f7f7fb;
+}
+</style>
+
+  <body>
+    <div id="dashboard">
+      <button class="sidebar-menu-button">
+        <span class="material-symbols-rounded">menu</span>
+      </button>
+
+      <aside class="sidebar">
+        <header class="sidebar-header">
+          <a href="#" class="header-logo">
+            <video autoplay loop muted playsinline class="logo-video-square">
+              <source src="/assets/src/logo.mp4" type="video/mp4" />
+            </video>
+            <video autoplay loop muted playsinline class="logo-video-landscape">
+              <source src="/assets/src/logo2.mp4" type="video/mp4" />
+            </video>
+          </a>
+          <button class="sidebar-toggler">
+            <span class="material-symbols-rounded">chevron_left</span>
+          </button>
+        </header>
+        <div class="page-header">
+          <span class="user-name">Maulana Dwi Prasetya | 241011400102</span>
+        </div>
+
+        <nav class="sidebar-nav">
+          <ul class="nav-list primary-nav">
+            <li class="nav-item">
+              <a href="/index.html" class="nav-link">
+                <span class="material-symbols-rounded">dashboard</span>
+                <span class="nav-label">Dashboard</span>
+              </a>
+              <ul class="dropdown-menu">
+                <li class="nav-item">
+                  <a class="nav-link dropdown-title">Dashboard</a>
+                </li>
+              </ul>
+            </li>
+            <!-- LIST TUGAS AKAN DIISI OTOMATIS DI SINI -->
+            <li
+              class="nav-item dropdown-container"
+              id="auto-tugas-dropdown"
+            ></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <div class="container">
+        <h1>Pertemuan 5: Algoritma Pembuatan Kurva Bezier</h1>
+        <div class="card">
+          <h2>Pengertian Kurva dan Bezier</h2>
+          <p>
+            <strong>Kurva</strong> dalam grafik komputer adalah garis lengkung
+            satu dimensi yang dibentuk oleh titik-titik yang saling terhubung.
+            Kurva digunakan untuk membuat bentuk bebas yang halus dan estetis.
+          </p>
+          <p>
+            <strong>Kurva Bézier</strong> adalah salah satu jenis kurva
+            parametrik yang banyak dipakai dalam desain grafis, animasi, dan
+            CAD. Ditemukan oleh Pierre Bézier, kurva ini membentuk garis
+            lengkung dengan bantuan satu atau lebih <em>titik kontrol</em>.
+            Keunggulan utamanya: bentuk kurva bisa diubah hanya dengan menggeser
+            titik kontrolnya.
+          </p>
+        </div>
+
+        <div class="card" style="margin-top:18px;">
+    <h3>Rumus Kurva Bézier Kubik</h3>
+    <pre>
+B(t) = (1−t)<sup>3</sup>·P₀
+     + 3(1−t)<sup>2</sup>·t·P₁
+     + 3(1−t)·t<sup>2</sup>·P₂
+     + t<sup>3</sup>·P₃
+    </pre>
+    <p>
+      Dengan komponen:
+    </p>
+    <pre>
+x(t) = (1−t)³·x₀ + 3(1−t)²·t·x₁ + 3(1−t)·t²·x₂ + t³·x₃
+y(t) = (1−t)³·y₀ + 3(1−t)²·t·y₁ + 3(1−t)·t²·y₂ + t³·y₃
+    </pre>
+    <ul>
+      <li>Nilai t diiterasi dari 0 ke 1 (misal Δt = 0.05)</li>
+      <li>Setiap hasil x(t), y(t) disambungkan untuk membentuk kurva halus</li>
+    </ul>
+  </div>
+
+  <div class="card" style="margin-top:18px;">
+    <h3>Contoh Perhitungan (t = 0.5)</h3>
+    <pre>
+P₀ = (50, 300)
+P₁ = (150, 100)
+P₂ = (300, 100)
+P₃ = (400, 300)
+t = 0.5
+
+x(0.5) = (1-0.5)³×50 
+       + 3(1-0.5)²×0.5×150 
+       + 3(1-0.5)×0.5²×300 
+       + 0.5³×400
+
+       = 0.125×50 + 0.375×150 + 0.375×300 + 0.125×400
+       = 6.25 + 56.25 + 112.5 + 50 = <b>225</b>
+    </pre>
+    <pre>
+y(0.5) = (1-0.5)³×300 
+       + 3(1-0.5)²×0.5×100 
+       + 3(1-0.5)×0.5²×100 
+       + 0.5³×300
+
+       = 0.125×300 + 0.375×100 + 0.375×100 + 0.125×300
+       = 37.5 + 37.5 + 37.5 + 37.5 = <b>150</b>
+    </pre>
+    <p>
+      Maka pada t = 0.5, titik di kurva Bézier adalah <b>(225, 150)</b>.
+    </p>
+  </div>
+  <div class="card">
+  <h2>Demo & Rumus Kurva Bézier Kubik</h2>
+  <p>
+    Kurva Bézier kubik menggunakan <b>empat titik kontrol</b> (P₀, P₁, P₂, P₃). Kamu bisa mengatur semua titik dan nilai Δt (resolusi titik kurva), lalu klik "Hitung & Gambar".
+  </p>
+  <form id="bezierForm" onsubmit="event.preventDefault(); hitungKurva();">
+     <div style="display:flex; flex-direction:column; gap:8px; max-width:340px;">
+      <label>
+        <b>P₀</b> (x₀, y₀): 
+        <input type="number" id="x0" value="50" style="width:70px" />
+        <input type="number" id="y0" value="300" style="width:70px" />
+      </label>
+      <label>
+        <b>P₁</b> (x₁, y₁): 
+        <input type="number" id="x1" value="150" style="width:70px" />
+        <input type="number" id="y1" value="100" style="width:70px" />
+      </label>
+      <label>
+        <b>P₂</b> (x₂, y₂): 
+        <input type="number" id="x2" value="300" style="width:70px" />
+        <input type="number" id="y2" value="100" style="width:70px" />
+      </label>
+      <label>
+        <b>P₃</b> (x₃, y₃): 
+        <input type="number" id="x3" value="400" style="width:70px" />
+        <input type="number" id="y3" value="300" style="width:70px" />
+      </label>
+      <label>
+        Δt:
+        <input type="number" step="0.01" id="dt" value="0.05" style="width:70px" />
+      </label>
+      <button type="submit" style="margin-top:8px;width:140px">Hitung & Gambar</button>
+    </div>
+  </form>
+  <canvas id="bezierCanvas" width="600" height="350" style="max-width:100%"></canvas>
+</div>
+
+  <div class="card" style="margin-top:18px;">
+    <h3>Output Titik Kurva</h3>
+    <strong>Jumlah titik:</strong> <span id="jumlahTitik"></span>
+    <table id="tabelHasil" style="width:auto;">
+      <thead>
+        <tr><th>t</th><th>X(t)</th><th>Y(t)</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
+    <script src="/script.js"></script>
+    <script>
+
+function hitungKurva() {
+    const canvas = document.getElementById("bezierCanvas");
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const x0 = parseFloat(document.getElementById("x0").value);
+    const y0 = parseFloat(document.getElementById("y0").value);
+    const x1 = parseFloat(document.getElementById("x1").value);
+    const y1 = parseFloat(document.getElementById("y1").value);
+    const x2 = parseFloat(document.getElementById("x2").value);
+    const y2 = parseFloat(document.getElementById("y2").value);
+    const x3 = parseFloat(document.getElementById("x3").value);
+    const y3 = parseFloat(document.getElementById("y3").value);
+    const dt = parseFloat(document.getElementById("dt").value);
+
+    const steps = Math.floor(1 / dt);
+    document.getElementById("jumlahTitik").textContent = steps + 1;
+
+    const tbody = document.querySelector("#tabelHasil tbody");
+    tbody.innerHTML = "";
+
+    ctx.beginPath();
+    ctx.moveTo(x0, y0);
+
+    for (let i = 0; i <= steps; i++) {
+        const t = i * dt;
+        const xt = Math.pow(1 - t, 3) * x0 +
+                   3 * Math.pow(1 - t, 2) * t * x1 +
+                   3 * (1 - t) * Math.pow(t, 2) * x2 +
+                   Math.pow(t, 3) * x3;
+
+        const yt = Math.pow(1 - t, 3) * y0 +
+                   3 * Math.pow(1 - t, 2) * t * y1 +
+                   3 * (1 - t) * Math.pow(t, 2) * y2 +
+                   Math.pow(t, 3) * y3;
+
+        ctx.lineTo(xt, yt);
+
+        const row = document.createElement("tr");
+        row.innerHTML = `<td>${t.toFixed(2)}</td><td>${xt.toFixed(2)}</td><td>${yt.toFixed(2)}</td>`;
+        tbody.appendChild(row);
+    }
+
+    ctx.strokeStyle = "blue";
+    ctx.stroke();
+
+    // Titik kurva berwarna merah
+    ctx.fillStyle = "red";
+    for (let i = 0; i <= steps; i++) {
+        const t = i * dt;
+        const xt = Math.pow(1 - t, 3) * x0 +
+                   3 * Math.pow(1 - t, 2) * t * x1 +
+                   3 * (1 - t) * Math.pow(t, 2) * x2 +
+                   Math.pow(t, 3) * x3;
+
+        const yt = Math.pow(1 - t, 3) * y0 +
+                   3 * Math.pow(1 - t, 2) * t * y1 +
+                   3 * (1 - t) * Math.pow(t, 2) * y2 +
+                   Math.pow(t, 3) * y3;
+
+        ctx.beginPath();
+        ctx.arc(xt, yt, 2.5, 0, 2 * Math.PI);
+        ctx.fill();
+    }
+}
+window.addEventListener('DOMContentLoaded', hitungKurva);π
+
+    </script>
+  <script>
+    generateSidebarListTugas();
+    attachSidebarEvents();
+  </script>
+  </body>
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pertemuan 7: Proyeksi Geometri Bidang</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
+<body>
+  <!-- mobile sidebar menu button -->
+  <button class="sidebar-menu-button">
+    <span class="material-symbols-rounded">menu</span>
+  </button>
+
+  <aside class="sidebar">
+    <header class="sidebar-header">
+      <a href="#" class="header-logo">
+        <video autoplay loop muted playsinline class="logo-video-square">
+          <source src="/assets/src/logo.mp4" type="video/mp4">
+        </video>
+        <video autoplay loop muted playsinline class="logo-video-landscape">
+          <source src="/assets/src/logo2.mp4" type="video/mp4">
+        </video>
+      </a>
+      <button class="sidebar-toggler">
+        <span class="material-symbols-rounded">chevron_left</span>
+      </button>
+    </header>
+
+    <div class="page-header">
+      <span class="user-name">Maulana Dwi Prasetya | 241011400102</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <ul class="nav-list primary-nav">
+        <li class="nav-item">
+          <a href="/index.html" class="nav-link">
+            <span class="material-symbols-rounded">dashboard</span>
+            <span class="nav-label">Dashboard</span>
+          </a>
+          <ul class="dropdown-menu">
+            <li class="nav-item"><a class="nav-link dropdown-title">Dashboard</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown-container" id="auto-tugas-dropdown"></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="container">
+    <h1>Pertemuan 7: Proyeksi Geometri Bidang</h1>
+
+    <div class="card">
+      <h2>Pengertian Proyeksi Geometri</h2>
+      <p><strong>Proyeksi geometri</strong> adalah jenis transformasi koordinat yang digunakan untuk memetakan titik dari ruang berdimensi tinggi (misalnya 3D) ke ruang berdimensi lebih rendah (misalnya 2D). Dalam grafik komputer, ini digunakan untuk menggambarkan objek tiga dimensi ke dalam tampilan dua dimensi di layar.</p>
+      <p>Proses ini melibatkan titik-titik objek dan garis proyeksi yang memotong bidang proyeksi untuk menentukan posisi gambar akhir objek tersebut.</p>
+    </div>
+
+    <div class="card">
+      <h2>Taksonomi Proyeksi</h2>
+      <p>Proyeksi geometri dibagi menjadi dua jenis utama:</p>
+      <ul>
+        <li><strong>Proyeksi Paralel</strong>: Semua garis proyeksi sejajar satu sama lain dan tidak bertemu di satu titik pusat.</li>
+        <li><strong>Proyeksi Perspektif</strong>: Garis-garis proyeksi bertemu pada satu titik pusat yang dinamakan titik hilang.</li>
+      </ul>
+    </div>
+<div class="card">
+  <h2>Rumus & Penjelasan Proyeksi Geometri</h2>
+  <ul>
+    <li>
+      <strong>Proyeksi Geometri</strong> adalah proses mentransformasikan titik dari ruang berdimensi lebih tinggi (3D) ke ruang berdimensi lebih rendah (2D) dengan memperhitungkan hubungan antara posisi objek, bidang proyeksi, dan pusat proyeksi.
+    </li>
+    <li>
+      <strong>Proyeksi Paralel</strong>: Semua sinar proyeksi sejajar satu sama lain.<br>
+      <strong>Persamaan umum proyeksi paralel:</strong>
+      <br>
+      <pre><code>
+      x' = x + a·z<br>
+      y' = y + b·z
+      </code></pre>
+      <br>
+      Dengan <em>a</em> dan <em>b</em> adalah konstanta tergantung arah proyeksi.
+    </li>
+    <li>
+      <strong>Proyeksi Orthographic:</strong> Jika <em>a = 0, b = 0</em> (garis proyeksi tegak lurus bidang proyeksi):<br>
+      <pre><code>
+      x' = x<br>
+      y' = y
+      </code></pre>
+      </li>
+    <li>
+      <strong>Proyeksi Oblique</strong>: Jika <em>a</em> atau <em>b</em> ≠ 0 (garis proyeksi miring), misal untuk proyeksi <em>cavalier</em> (α = 45°):<br>
+      <pre><code>
+      x' = x + z·cos(α)<br>
+      y' = y + z·sin(α)
+      </code></pre>
+      </li>
+    <li>
+      <strong>Proyeksi Aksonometrik:</strong> Proyeksi ortografik yang memperlihatkan lebih dari satu sisi objek (isometrik, dimetrik, trimetrik).
+    </li>
+    <li>
+      <strong>Proyeksi Perspektif</strong>: Sinar proyeksi menuju satu titik pusat (titik hilang).
+      <br>
+      <strong>Persamaan proyeksi perspektif sederhana:</strong>
+      <br>
+      <pre><code>
+      x' = x / (z / d + 1)<br>
+      y' = y / (z / d + 1)
+      </code></pre>
+      <br>
+      dengan <em>d</em> adalah jarak dari pusat proyeksi ke bidang proyeksi.<br>
+      Semakin besar nilai <em>z</em>, maka <em>x'</em> dan <em>y'</em> semakin kecil, sehingga objek terlihat makin jauh/mungil.
+    </li>
+  </ul>
+  <p><strong>Perbedaan utama:</strong></p>
+  <ul>
+    <li>Proyeksi paralel: <em>garis sejajar tetap sejajar</em>, tidak realistik, baik untuk teknik/gambar kerja.</li>
+    <li>Proyeksi perspektif: <em>garis sejajar bisa tampak bertemu</em> di titik hilang, lebih realistik.</li>
+  </ul>
+  <small style="color:#666;">Materi dan rumus disarikan dari buku ajar Komputer Grafik Unpam, halaman 98-104.</small>
+</div>
+
+    <div class="card">
+      <h2>Jenis-Jenis Proyeksi Paralel</h2>
+      <ul>
+        <li><strong>Proyeksi Ortografik</strong>: Garis proyeksi tegak lurus terhadap bidang proyeksi.</li>
+        <li><strong>Proyeksi Aksonometrik</strong>: Menampilkan lebih dari satu sisi objek (isometrik, dimetrik, trimetrik).</li>
+        <li><strong>Proyeksi Oblique</strong>: Garis proyeksi miring terhadap bidang proyeksi (contoh: cavalier dan cabinet).</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Proyeksi Perspektif</h2>
+      <p>Proyeksi ini memberikan kesan realistis karena memperhitungkan jarak objek dari pengamat. Objek yang jauh terlihat lebih kecil, dan objek dekat terlihat lebih besar.</p>
+      <p>Jenis perspektif ditentukan oleh jumlah titik hilang: 1, 2, atau 3 titik hilang tergantung sudut pandang terhadap objek.</p>
+    </div>
+      <div class="card">
+  <h2>Demo Interaktif Proyeksi Geometri Bidang</h2>
+  <p>Pilih jenis proyeksi lalu gerakkan slider/ubah parameter, perhatikan perubahan pada hasil proyeksi (bidang biru adalah bidang proyeksi).</p>
+  
+  <div class="card2">
+    Jenis Proyeksi: 
+    <select id="projectionType">
+      <option value="orthographic">Orthographic (Paralel)</option>
+      <option value="oblique">Oblique (Cavalier)</option>
+      <option value="perspective">Perspective</option>
+    </select>
+  </div>
+  <span id="paramPanel" style="margin-left:18px;"> </span>
+  <canvas id="projCanvas" width="350" height="250" style="border:1px solid #bbb; display:block; margin:18px 0;"></canvas>
+  </div>
+  </div>
+
+
+ <script>
+function drawProjectionDemo() {
+  const ctx = document.getElementById("projCanvas").getContext("2d");
+  ctx.clearRect(0, 0, 350, 250);
+
+  // Koordinat kubus 3D (8 titik)
+  const cube = [
+    [-40,-40,40], [40,-40,40], [40,40,40], [-40,40,40], // depan
+    [-40,-40,-40], [40,-40,-40], [40,40,-40], [-40,40,-40] // belakang
+  ];
+  const edges = [
+    [0,1],[1,2],[2,3],[3,0], // depan
+    [4,5],[5,6],[6,7],[7,4], // belakang
+    [0,4],[1,5],[2,6],[3,7]  // penghubung
+  ];
+  // Transform (rotasi kecil agar tidak datar)
+  function rotateY([x,y,z],theta) {
+    const ct=Math.cos(theta), st=Math.sin(theta);
+    return [x*ct-z*st, y, x*st+z*ct];
+  }
+  function rotateX([x,y,z],phi) {
+    const ct=Math.cos(phi), st=Math.sin(phi);
+    return [x, y*ct-z*st, y*st+z*ct];
+  }
+  // Proyeksi
+  const type = document.getElementById("projectionType").value;
+  let orthoRot = parseFloat(document.getElementById("orthoRot")?.value || 0);
+  let alpha = parseFloat(document.getElementById("obliqueAlpha")?.value || (Math.PI/4));
+  let d = parseFloat(document.getElementById("perspD")?.value || 100);
+  function project([x, y, z]) {
+    if (type === "orthographic") {
+      return { x: x+175, y: y+125 };
+    } else if (type === "oblique") {
+      // Cavalier: alpha = 45deg, L=1
+      return { x: x + z * Math.cos(alpha) + 175, y: y + z * Math.sin(alpha) + 125 };
+    } else {
+      // Perspektif sederhana (pusat proyeksi di -d pada z)
+      return { x: x/(1-z/d)+175, y: y/(1-z/d)+125 };
+    }
+  }
+  // Gambar bidang proyeksi (kotak biru)
+  ctx.save();
+  ctx.strokeStyle="#387aff";
+  ctx.lineWidth=2;
+  ctx.strokeRect(55,45,140,140);
+  ctx.restore();
+
+  // Proyeksikan dan gambar
+  // let pts = cube.map(pt => rotateY(rotateX(pt,0.45),-0.65)).map(project);
+  let pts;
+  if(type === "orthographic") {
+    pts = cube.map(pt => rotateY(rotateX(pt, orthoRot),-0.65)).map(project);
+  } else {
+    pts = cube.map(pt => rotateY(rotateX(pt,0.45),-0.65)).map(project);
+  }
+
+
+  // Gambar edges
+  ctx.save();
+  ctx.strokeStyle="#333";
+  ctx.lineWidth=2;
+  edges.forEach(([a,b])=>{
+    ctx.beginPath();
+    ctx.moveTo(pts[a].x,pts[a].y);
+    ctx.lineTo(pts[b].x,pts[b].y);
+    ctx.stroke();
+  });
+  ctx.restore();
+
+  // Titik kontrol
+  ctx.save();
+  pts.forEach(p=>{
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,3,0,2*Math.PI);
+    ctx.fillStyle="#ef4444";
+    ctx.fill();
+  });
+  ctx.restore();
+}
+
+function updateProjectionParams() {
+  const type = document.getElementById("projectionType").value;
+  const panel = document.getElementById("paramPanel");
+  if(type === "orthographic") {
+  panel.innerHTML = `Rotasi: <input type="range" id="orthoRot" min="0" max="6.283" step="0.01" value="0" style="width:90px;" oninput="drawProjectionDemo()"> <span id="orthoRotVal">0°</span>`;
+  document.getElementById("orthoRot").addEventListener("input", function(){
+    document.getElementById("orthoRotVal").textContent = Math.round(this.value * 180 / Math.PI) + '°';
+    drawProjectionDemo();
+  });
+} else if(type === "oblique") {
+    panel.innerHTML = `Sudut α: <input type="range" id="obliqueAlpha" min="0" max="${Math.PI/2}" step="0.01" value="${Math.PI/4}" style="width:90px;" oninput="drawProjectionDemo()"> <span id="obliqueVal">45°</span>`;
+    document.getElementById("obliqueAlpha").addEventListener("input", function(){
+      document.getElementById("obliqueVal").textContent = Math.round(180/Math.PI*this.value) + '°';
+      drawProjectionDemo();
+    });
+  } else if(type === "perspective") {
+    panel.innerHTML = `Jarak Titik Pusat (d): <input type="range" id="perspD" min="80" max="300" step="1" value="120" style="width:90px;" oninput="drawProjectionDemo()"> <span id="perspVal">120</span>`;
+    document.getElementById("perspD").addEventListener("input", function(){
+      document.getElementById("perspVal").textContent = this.value;
+      drawProjectionDemo();
+    });
+  } else {
+    panel.innerHTML = '';
+  }
+  drawProjectionDemo();
+}
+document.getElementById("projectionType").addEventListener("change", updateProjectionParams);
+window.addEventListener("DOMContentLoaded", updateProjectionParams);
+</script>
+ 
+  <script src="/script.js"></script>
+  <script>
+      generateSidebarListTugas();
+      attachSidebarEvents();
+  </script>
+</body>
+</html>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pertemuan 3: Algoritma Garis dan Poligon</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
+  <style>
+    .canvas-row { display: flex; flex-wrap: wrap; gap: 24px; }
+    .canvas-col { flex: 1; min-width: 260px; }
+    .demo-label { font-weight: 600; }
+    .zoom-wrap { margin-bottom:12px; }
+    .zoom-wrap button { margin-right:5px; }
+  </style>
+</head>
+<body>
+  <button class="sidebar-menu-button">
+    <span class="material-symbols-rounded">menu</span>
+  </button>
+  <div id="dashboard">
+    <aside class="sidebar">
+      <header class="sidebar-header">
+        <a href="#" class="header-logo">
+          <video autoplay loop muted playsinline class="logo-video-square">
+            <source src="/assets/src/logo.mp4" type="video/mp4">
+          </video>
+          <video autoplay loop muted playsinline class="logo-video-landscape">
+            <source src="/assets/src/logo2.mp4" type="video/mp4">
+          </video>
+        </a>
+        <button class="sidebar-toggler">
+          <span class="material-symbols-rounded">chevron_left</span>
+        </button>
+      </header>
+      <div class="page-header">
+        <span class="user-name">Maulana Dwi Prasetya | 241011400102</span>
+      </div>
+      <nav class="sidebar-nav">
+        <ul class="nav-list primary-nav">
+          <li class="nav-item">
+            <a href="/index.html" class="nav-link">
+              <span class="material-symbols-rounded">dashboard</span>
+              <span class="nav-label">Dashboard</span>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="nav-item"><a class="nav-link dropdown-title">Dashboard</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown-container" id="auto-tugas-dropdown"></li>
+        </ul>
+      </nav>
+    </aside>
+    <div class="container">
+      <h1>Pertemuan 3: Algoritma Garis dan Poligon</h1>
+
+      <!-- ZOOM BUTTONS -->
+      <div class="zoom-wrap">
+        <button onclick="zoomCanvas(-5)">Zoom Out</button>
+        <button onclick="zoomCanvas(5)">Zoom In</button>
+        <span style="margin-left:10px; font-size: 0.95em;">Grid: <span id="gridVal">20</span> px</span>
+      </div>
+
+      <!-- INPUT KOORDINAT UNTUK SEMUA DEMO -->
+      <div class="card">
+        <h2>Input Titik Awal & Akhir Garis</h2>
+        <label class="demo-label">Titik A (x1, y1): </label>
+        <input type="number" id="x1" value="3" style="width:50px;">
+        <input type="number" id="y1" value="2" style="width:50px;">
+        <label class="demo-label" style="margin-left: 20px;">Titik B (x2, y2): </label>
+        <input type="number" id="x2" value="11" style="width:50px;">
+        <input type="number" id="y2" value="6" style="width:50px;">
+        <button onclick="drawAllLines()">Gambar Semua Algoritma</button>
+      </div>
+
+      <!-- DEMO GARIS SEMUA ALGORITMA -->
+      <div class="canvas-row">
+        <div class="card canvas-col">
+          <h2>Brute Force</h2>
+          <canvas id="canvasBrute" width="320" height="240" style="border:1px solid #ccc;"></canvas>
+        </div>
+        <div class="card canvas-col">
+          <h2>DDA</h2>
+          <canvas id="canvasDDA" width="320" height="240" style="border:1px solid #ccc;"></canvas>
+        </div>
+        <div class="card canvas-col">
+          <h2>Bresenham</h2>
+          <canvas id="canvasBresenham" width="320" height="240" style="border:1px solid #ccc;"></canvas>
+        </div>
+      </div>
+
+      <!-- DEMO POLIGON -->
+      <div class="card">
+        <h2>Demo Poligon Sederhana</h2>
+        <button onclick="drawPolygon()">Gambar Poligon + Fill Warna</button>
+        <canvas id="canvasPolygon" width="400" height="250" style="border:1px solid #ccc;margin-top:12px;"></canvas>
+      </div>
+
+      <!-- PENJELASAN RUMUS -->
+      <div class="card">
+        <h3>Brute Force Line Algorithm</h3>
+        <ul>
+          <li>Persamaan garis: <pre><code>y = m(x - x1) + y1</code></pre> dengan <pre><code>m = (y2 - y1)/(x2 - x1)</code></pre></li>
+          <li>Iterasi x dari x1 ke x2, setiap langkah hitung y dan bulatkan ke integer</li>
+          <li>Rumus dasar:<br>
+            <pre><code>
+for x = x1 to x2:
+  y = m * (x - x1) + y1
+  plot(x, round(y))
+            </code></pre>
+          </li>
+        </ul>
+        <strong>Kelebihan:</strong> Mudah diimplementasi.<br>
+        <strong>Kekurangan:</strong> Tidak presisi untuk gradien besar (m>1), dan tetap membutuhkan pembulatan floating point.
+      </div>
+
+      <div class="card">
+        <h3>Digital Differential Analyzer (DDA) Algorithm</h3>
+        <ul>
+          <li>Hitung dx, dy: <pre><code>dx = x2 - x1; dy = y2 - y1</code></pre></li>
+          <li>Tentukan langkah (steps): <pre><code>steps = max(abs(dx), abs(dy))</code></pre></li>
+          <li>Hitung increment: <pre><code>x_inc = dx/steps; y_inc = dy/steps</code></pre></li>
+          <li>Iterasi:<br>
+            <pre><code>
+x = x1; y = y1
+for i = 0 to steps:
+  plot(round(x), round(y))
+  x += x_inc
+  y += y_inc
+            </code></pre>
+          </li>
+        </ul>
+        <strong>Kelebihan:</strong> Lebih stabil untuk semua kemiringan.<br>
+        <strong>Kekurangan:</strong> Masih membutuhkan pembulatan floating point.
+      </div>
+
+      <div class="card">
+        <h3>Bresenham's Line Algorithm</h3>
+        <ul>
+          <li>Hanya menggunakan operasi integer!</li>
+          <li>Algoritma dasar (m < 1):<br>
+            <pre><code>
+dx = x2 - x1; dy = y2 - y1
+d = 2*dy - dx
+y = y1
+for x = x1 to x2:
+  plot(x, y)
+  if d > 0:
+    y += 1
+    d += 2*(dy - dx)
+  else:
+    d += 2*dy
+            </code></pre>
+          </li>
+        </ul>
+        <strong>Kelebihan:</strong> Sangat efisien, hanya integer.<br>
+        <strong>Kekurangan:</strong> Implementasi sedikit lebih panjang.
+      </div>
+
+      <div class="card">
+        <h3>Polygon & Scanline Fill (dasar)</h3>
+        <ul>
+          <li>Poligon adalah gabungan garis-garis tertutup (edge).</li>
+          <li>Pengisian warna sederhana: scan setiap baris (y), cek titik-titik yang masuk area poligon, warnai horizontal antar edge.</li>
+        </ul>
+        <pre><code>
+Titik poligon: [(x1, y1), (x2, y2), ...]
+for setiap y:
+  cari semua persilangan edge dengan y (dapatkan titik x)
+  urutkan titik x, warnai dari x genap ke x ganjil
+        </code></pre>
+      </div>
+    </div>
+  </div>
+  <script src="/script.js"></script>
+  <script>
+    let canvasScale = 20; // grid default
+
+    // Gambar grid + label angka sumbu
+    function drawGrid(ctx, w, h, grid=20, xMax=15, yMax=10) {
+      ctx.save();
+      ctx.strokeStyle = "#cce";
+      ctx.lineWidth = 1;
+      ctx.font = "12px monospace";
+      ctx.fillStyle = "#889";
+      // Garis vertikal + label X
+      for(let x=0;x<=xMax;x++){
+        let px = x*grid;
+        ctx.beginPath(); ctx.moveTo(px, 0); ctx.lineTo(px, h); ctx.stroke();
+        if(x>0) ctx.fillText(x, px-4, h-3);
+      }
+      // Garis horizontal + label Y
+      for(let y=0;y<=yMax;y++){
+        let py = h-y*grid;
+        ctx.beginPath(); ctx.moveTo(0, py); ctx.lineTo(w, py); ctx.stroke();
+        if(y>0) ctx.fillText(y, 3, py+4);
+      }
+      ctx.restore();
+    }
+
+    function clearCanvas(id, grid=canvasScale, xMax=15, yMax=10) {
+      const canvas = document.getElementById(id);
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawGrid(ctx, canvas.width, canvas.height, grid, xMax, yMax);
+    }
+
+    function plotPoint(ctx, x, y, color = 'blue', size=7) {
+      ctx.fillStyle = color;
+      ctx.fillRect(Math.round(x)*canvasScale-3, ctx.canvas.height-(Math.round(y)*canvasScale)-3, size, size);
+    }
+
+    // Brute Force
+    function drawBruteForceLine(ctx, x1, y1, x2, y2, color = "blue") {
+      let dx = x2 - x1, dy = y2 - y1;
+      if (Math.abs(dy) <= Math.abs(dx)) { // m <= 1
+        let m = dy / dx;
+        for (let x = x1; x <= x2; x++) {
+          let y = m * (x - x1) + y1;
+          plotPoint(ctx, x, Math.round(y), color);
+        }
+      } else { // m > 1, iterasi y
+        let m = dx / dy;
+        for (let y = y1; y <= y2; y++) {
+          let x = m * (y - y1) + x1;
+          plotPoint(ctx, Math.round(x), y, color);
+        }
+      }
+    }
+
+    // DDA
+    function drawDDALine(ctx, x1, y1, x2, y2, color = "red") {
+      let dx = x2 - x1, dy = y2 - y1;
+      let steps = Math.max(Math.abs(dx), Math.abs(dy));
+      let xInc = dx / steps;
+      let yInc = dy / steps;
+      let x = x1, y = y1;
+      for (let i = 0; i <= steps; i++) {
+        plotPoint(ctx, x, y, color);
+        x += xInc;
+        y += yInc;
+      }
+    }
+
+    // Bresenham
+    function drawBresenhamLine(ctx, x1, y1, x2, y2, color = "green") {
+      let dx = Math.abs(x2 - x1), dy = Math.abs(y2 - y1);
+      let sx = x1 < x2 ? 1 : -1;
+      let sy = y1 < y2 ? 1 : -1;
+      let err = dx - dy;
+      let x = x1, y = y1;
+      while (true) {
+        plotPoint(ctx, x, y, color);
+        if (x === x2 && y === y2) break;
+        let e2 = 2 * err;
+        if (e2 > -dy) { err -= dy; x += sx; }
+        if (e2 < dx) { err += dx; y += sy; }
+      }
+    }
+
+    function drawAllLines() {
+      const x1 = parseInt(document.getElementById('x1').value);
+      const y1 = parseInt(document.getElementById('y1').value);
+      const x2 = parseInt(document.getElementById('x2').value);
+      const y2 = parseInt(document.getElementById('y2').value);
+
+      clearCanvas("canvasBrute", canvasScale, 15, 10);
+      clearCanvas("canvasDDA", canvasScale, 15, 10);
+      clearCanvas("canvasBresenham", canvasScale, 15, 10);
+
+      const ctxBrute = document.getElementById("canvasBrute").getContext("2d");
+      const ctxDDA = document.getElementById("canvasDDA").getContext("2d");
+      const ctxBres = document.getElementById("canvasBresenham").getContext("2d");
+
+      drawBruteForceLine(ctxBrute, x1, y1, x2, y2, 'blue');
+      drawDDALine(ctxDDA, x1, y1, x2, y2, 'red');
+      drawBresenhamLine(ctxBres, x1, y1, x2, y2, 'green');
+    }
+
+    // Poligon + grid + fill
+    function drawPolygon() {
+      const canvas = document.getElementById("canvasPolygon");
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawGrid(ctx, canvas.width, canvas.height, canvasScale, 13, 8);
+      // Polygon: [(1,1),(2,5),(5,4),(8,7),(10,4),(10,2),(1,1)]
+      const points = [[1,1],[2,5],[5,4],[8,7],[10,4],[10,2],[1,1]];
+      // Draw edge
+      ctx.strokeStyle = "#333";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      points.forEach(([x, y], i) => {
+        if (i === 0) ctx.moveTo(x*canvasScale, canvas.height-y*canvasScale);
+        else ctx.lineTo(x*canvasScale, canvas.height-y*canvasScale);
+      });
+      ctx.stroke();
+      // Draw vertex
+      points.forEach(([x, y]) => {
+        ctx.fillStyle = "#000";
+        ctx.beginPath();
+        ctx.arc(x*canvasScale, canvas.height-y*canvasScale, 4, 0, 2*Math.PI);
+        ctx.fill();
+      });
+      // Simple scanline fill
+      for (let y = 1; y <= 7; y++) {
+        let xs = [];
+        for (let i = 0; i < points.length - 1; i++) {
+          let [x1, y1] = points[i];
+          let [x2, y2] = points[i+1];
+          if ((y1 < y && y2 >= y) || (y2 < y && y1 >= y)) {
+            let x = x1 + (y - y1) * (x2 - x1) / (y2 - y1);
+            xs.push(x);
+          }
+        }
+        xs.sort((a,b)=>a-b);
+        for (let i = 0; i < xs.length; i += 2) {
+          if (xs[i+1] !== undefined) {
+            ctx.beginPath();
+            ctx.strokeStyle = "#e63946";
+            ctx.lineWidth = 7;
+            ctx.moveTo(xs[i]*canvasScale, canvas.height-y*canvasScale);
+            ctx.lineTo(xs[i+1]*canvasScale, canvas.height-y*canvasScale);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    // Zoom In/Out
+    function zoomCanvas(delta) {
+      canvasScale += delta;
+      if (canvasScale < 10) canvasScale = 10;
+      if (canvasScale > 60) canvasScale = 60;
+      document.getElementById("gridVal").innerText = canvasScale;
+      drawAllLines();
+      drawPolygon();
+    }
+
+    // Sidebar & event handler
+    window.onload = function() {
+      generateSidebarListTugas();
+      attachSidebarEvents();
+      document.getElementById("gridVal").innerText = canvasScale;
+      drawAllLines();
+      drawPolygon();
+    }
+  </script>
+  <script src="/script.js"></script>
+</body>
+</html>

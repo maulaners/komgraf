@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pertemuan 11: Antialiasing</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
+  <style>
+    canvas {
+      border: 1px solid #ccc;
+      margin-top: 10px;
+      max-width: 100%;
+    }
+    label, input {
+      margin: 5px 5px 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <button class="sidebar-menu-button">
+    <span class="material-symbols-rounded">menu</span>
+  </button>
+
+  <aside class="sidebar">
+    <header class="sidebar-header">
+      <a href="#" class="header-logo">
+        <video autoplay loop muted playsinline class="logo-video-square">
+          <source src="/assets/src/logo.mp4" type="video/mp4">
+        </video>
+        <video autoplay loop muted playsinline class="logo-video-landscape">
+          <source src="/assets/src/logo2.mp4" type="video/mp4">
+        </video>
+      </a>
+      <button class="sidebar-toggler">
+        <span class="material-symbols-rounded">chevron_left</span>
+      </button>
+    </header>
+    <div class="page-header">
+      <span class="user-name">Maulana Dwi Prasetya | 241011400102</span>
+    </div>
+    <nav class="sidebar-nav">
+      <ul class="nav-list primary-nav">
+        <li class="nav-item">
+          <a href="/index.html" class="nav-link">
+            <span class="material-symbols-rounded">dashboard</span>
+            <span class="nav-label">Dashboard</span>
+          </a>
+          <ul class="dropdown-menu">
+            <li class="nav-item"><a class="nav-link dropdown-title">Dashboard</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown-container" id="auto-tugas-dropdown"></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="container">
+    <h1>Pertemuan 11: Antialiasing</h1>
+
+    <div class="card">
+      <h2>Pengertian Antialiasing</h2>
+      <p><strong>Antialiasing</strong> adalah teknik dalam komputer grafik untuk mengurangi efek bergerigi (aliasing) yang terjadi ketika gambar dengan resolusi tinggi direpresentasikan dalam resolusi lebih rendah. Efek ini biasanya tampak pada tepi objek seperti garis dan bentuk.</p>
+      <p>Tujuan dari antialiasing adalah untuk memperhalus garis dengan meratakan warna di sepanjang tepi objek, sehingga hasil tampilan menjadi lebih realistis dan halus.</p>
+    </div>
+
+    <div class="card">
+      <h2>Jenis-Jenis Antialiasing</h2>
+      <ul>
+        <li><strong>FXAA (Fast Approximate Anti-Aliasing)</strong> – Cepat tetapi dapat menyebabkan gambar sedikit buram.</li>
+        <li><strong>MSAA (Multisampling Anti-Aliasing)</strong> – Menerapkan smoothing hanya pada bagian pinggir objek, lebih efisien.</li>
+        <li><strong>TXAA (Temporal Anti-Aliasing)</strong> – Gabungan dari antialiasing spasial dan temporal, namun bisa menghasilkan gambar kabur.</li>
+      </ul>
+    </div>
+<div class="card">
+  <h2>Rumus & Cara Kerja Antialiasing</h2>
+  <p>
+    <b>Antialiasing</b> adalah teknik untuk mengurangi efek <i>aliasing</i> (bergerigi/patah-patah) pada tepi objek digital saat resolusi gambar lebih rendah dari detail aslinya. Efek jagged ini muncul karena garis atau tepi objek tidak dapat direpresentasikan secara halus dalam satuan piksel. 
+  </p>
+  <p>
+    <b>Cara kerja antialiasing:</b>
+    <ul>
+      <li>
+        Antialiasing <b>meratakan warna piksel di sekitar tepi objek</b> agar transisi antara objek dan background menjadi lebih halus, tidak tajam/bergerigi.
+      </li>
+      <li>
+        Umumnya, algoritma antialiasing mengubah warna piksel tepi (edge) menjadi gradasi (interpolasi) antara warna objek dan background.
+      </li>
+      <li>
+        Nilai derajat antialiasing (misal: 2x, 4x, 8x, 16x) menentukan sehalus apa tepi objek yang dihasilkan (semakin tinggi, semakin halus).
+      </li>
+    </ul>
+  </p>
+  <p>
+    <b>Rumus sederhana interpolasi warna piksel:</b>
+    <pre><code>C_piksel = w_objek × C_objek + w_bg × C_bg
+    </code></pre>
+    di mana:
+    <ul>
+      <li><b>C_piksel</b>: warna piksel akhir di tepi (hasil blending)</li>
+      <li><b>C_objek</b>: warna objek</li>
+      <li><b>C_bg</b>: warna background</li>
+      <li><b>w_objek</b>: bobot kontribusi warna objek (misal 0.3)</li>
+      <li><b>w_bg</b>: bobot kontribusi warna background (misal 0.7)</li>
+      <li><b>w_objek + w_bg = 1</b></li>
+    </ul>
+    <b>Semakin dekat piksel ke garis/tepi objek, nilai <i>w_objek</i> semakin besar</b> sehingga warna semakin mirip objek. Sebaliknya, makin jauh, semakin mirip background.
+  </p>
+  <p>
+    <b>Contoh perhitungan:</b><br>
+    Jika warna objek merah <code>rgb(255,0,0)</code>, background putih <code>rgb(255,255,255)</code>, dan <code>w_objek=0.4</code>, <code>w_bg=0.6</code>:<br>
+    <pre><code>C_piksel = 0.4 × (255,0,0) + 0.6 × (255,255,255) 
+         = (255, 153, 153)</code></pre>
+    Hasilnya, piksel akan berwarna merah muda (transisi halus dari objek ke background).
+  </p>
+  <p>
+    <b>Interpolasi</b> adalah teknik matematis utama dalam antialiasing, yaitu menebak warna di antara dua titik berdasarkan bobot jarak ke objek atau background.<br>
+    Proses ini sangat penting untuk merender garis, teks, atau bentuk vektor agar tampak smooth di resolusi berapapun.
+  </p>
+  <ul>
+    <li>
+      <b>FXAA:</b> menghaluskan seluruh frame gambar secara cepat namun dapat membuat gambar agak buram.
+    </li>
+    <li>
+      <b>MSAA:</b> menghaluskan khusus bagian pinggir objek, lebih efisien.
+    </li>
+    <li>
+      <b>TXAA:</b> gabungan spasial dan temporal, gambar sangat halus tapi bisa tampak buram.
+    </li>
+  </ul>
+</div>
+
+    <div class="section">
+      <h2>Demo Antialiasing (Simulasi)</h2>
+      <label for="opacitySlider">Tingkat Antialiasing: </label>
+      <input type="range" id="opacitySlider" min="0.1" max="1" step="0.1" value="0.6">
+      <canvas id="aliasCanvas" width="300" height="150"></canvas>
+      <p>Garis biru ditampilkan tanpa antialiasing (piksel kasar), garis merah menggunakan interpolasi sederhana (simulasi antialiasing).</p>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("aliasCanvas");
+    const ctx = canvas.getContext("2d");
+    const slider = document.getElementById("opacitySlider");
+
+    function drawAlias(opacity = 0.6) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Garis tanpa antialiasing (efek kasar)
+      for (let i = 0; i < 5; i++) {
+        ctx.fillStyle = "#337ab7";
+        ctx.fillRect(30 + i * 2, 20 + i * 5, 1, 5);
+      }
+
+      // Garis dengan simulasi antialiasing (gradasi merah muda)
+      const grad = ctx.createLinearGradient(150, 20, 200, 100);
+      grad.addColorStop(0, `rgba(255, 0, 0, ${opacity * 0.1})`);
+      grad.addColorStop(0.5, `rgba(255, 0, 0, ${opacity})`);
+      grad.addColorStop(1, `rgba(255, 0, 0, 1)`);
+
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(150, 20);
+      ctx.lineTo(200, 100);
+      ctx.stroke();
+    }
+
+    slider.addEventListener("input", () => {
+      drawAlias(parseFloat(slider.value));
+    });
+
+    drawAlias();
+  </script>
+  <script src="/script.js"></script>
+  <script>
+   generateSidebarListTugas();
+   attachSidebarEvents();
+  </script>
+</body>
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pertemuan 12: Grafika 3 Dimensi</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
+</head>
+<body>
+  <button class="sidebar-menu-button">
+    <span class="material-symbols-rounded">menu</span>
+  </button>
+  <aside class="sidebar">
+    <!-- ... header logo, toggler, nav ... -->
+    <header class="sidebar-header">
+      <a href="#" class="header-logo">
+        <video autoplay loop muted playsinline class="logo-video-square">
+          <source src="/assets/src/logo.mp4" type="video/mp4">
+        </video>
+        <video autoplay loop muted playsinline class="logo-video-landscape">
+          <source src="/assets/src/logo2.mp4" type="video/mp4">
+        </video>
+      </a>
+      <button class="sidebar-toggler">
+        <span class="material-symbols-rounded">chevron_left</span>
+      </button>
+    </header>
+    <div class="page-header">
+      <span class="user-name">Maulana Dwi Prasetya | 241011400102</span>
+    </div>
+    <nav class="sidebar-nav">
+      <ul class="nav-list primary-nav">
+        <li class="nav-item">
+          <a href="/index.html" class="nav-link">
+            <span class="material-symbols-rounded">dashboard</span>
+            <span class="nav-label">Dashboard</span>
+          </a>
+          <ul class="dropdown-menu">
+            <li class="nav-item"><a class="nav-link dropdown-title">Dashboard</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown-container" id="auto-tugas-dropdown"></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="container">
+    <h1>Pertemuan 14: APLIKASI GRAFIKA KOMPUTER</h1>
+
+<div class="card">
+  <h2>Pengertian Aplikasi Grafika Komputer</h2>
+  <p>
+    <strong>Aplikasi grafika komputer</strong> adalah perangkat lunak atau program yang memanfaatkan teknik-teknik grafika komputer untuk menampilkan, memanipulasi, dan membuat gambar, animasi, serta visualisasi di layar komputer. Dengan grafika komputer, kita bisa membangun aplikasi interaktif seperti game, visualisasi data, desain grafis, simulasi, animasi, dan banyak lagi.
+  </p>
+  <p>
+    Untuk membangun aplikasi grafika komputer, biasanya digunakan API (Application Programming Interface) seperti Java2D, OpenGL, atau pustaka grafika lain pada berbagai bahasa pemrograman.
+  </p>
+</div>
+
+<div class="card">
+  <h2>Contoh Penerapan: Membuat Animasi dengan Java2D</h2>
+  <p>
+    Salah satu contoh aplikasi grafika komputer adalah membuat animasi objek bergerak menggunakan Java2D. Animasi dilakukan dengan cara:
+    <ul>
+      <li>Membuat kelas turunan <code>JPanel</code> dan menimpa fungsi <code>paintComponent</code> untuk menggambar objek.</li>
+      <li>Mengatur posisi, warna, dan bentuk objek menggunakan fungsi grafika Java2D seperti <code>drawString</code>, <code>draw</code>, <code>fill</code>.</li>
+      <li>Menggerakkan objek secara otomatis dengan thread (timer), sehingga gambar terus diperbarui (<i>repaint</i>).</li>
+    </ul>
+  </p>
+  <b>Contoh kode Java (menampilkan animasi manusia berjalan dan teks warna acak):</b>
+  <pre><code>
+public class animasi extends JPanel {
+    Thread animasi, repaint;
+    int xOrang = -100, yOrang = 100, v = 1;
+    int x = 10, y = 10, a = 10, batas = 240;
+
+    public animasi() {
+        setPreferredSize(new Dimension(500, 300));
+        setFocusable(true);
+        setBackground(Color.black);
+        initThread();
+        animasi.start();
+        repaint.start();
+    }
+
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g;
+        drawText(g2);
+        drawOrang(g2, xOrang, yOrang, v);
+    }
+}
+  </code></pre>
+  <p>
+    <b>Penjelasan:</b> <br>
+    - Setiap <code>repaint()</code> memanggil <code>paintComponent</code> untuk memperbarui tampilan. <br>
+    - Thread <code>animasi</code> menggerakkan posisi objek dan teks. <br>
+    - Warna dan posisi teks berubah-ubah dengan perintah acak, objek "manusia" berjalan dari kiri ke kanan layar, lalu diulang.
+  </p>
+  <p>
+    <b>Rumus sederhana animasi translasi (pergeseran posisi):</b>
+    <pre><code>
+x_baru = x_lama + Δx
+y_baru = y_lama + Δy
+    </code></pre>
+    Nilai <code>Δx</code> dan <code>Δy</code> didapat dari perubahan posisi setiap siklus frame. Contoh: setiap iterasi, <code>xOrang = xOrang + 10</code> membuat objek berjalan ke kanan.
+  </p>
+</div>
+
+<div class="card">
+  <h2>Contoh Penerapan: Membuat Bingkai Poligon dan Teks</h2>
+  <p>
+    Selain animasi, aplikasi grafika komputer juga bisa membangun gambar statis dengan bentuk bebas dan teks. Misalnya, membingkai tulisan dengan poligon/shape sesuai keinginan:
+  </p>
+  <pre><code>
+protected void paintComponent(Graphics g) {
+    super.paintComponent(g);
+    Graphics2D g2 = (Graphics2D) g;
+    Polygon kotak = new Polygon();
+    kotak.addPoint(10, 10);
+    kotak.addPoint(200, 10);
+    kotak.addPoint(200, 110);
+    kotak.addPoint(30, 110);
+    kotak.addPoint(10, 125);
+    kotak.addPoint(20, 110);
+    kotak.addPoint(10, 110);
+    g2.setColor(Color.yellow);
+    g2.fill(kotak);
+    g2.setColor(Color.black);
+    g2.drawString("Komputer Grafik 1", 50, 50);
+    g2.draw(kotak);
+}
+  </code></pre>
+  <p>
+    <b>Penjelasan:</b> <br>
+    - <code>Polygon</code> membentuk bingkai sesuai titik yang diinput. <br>
+    - <code>drawString</code> menampilkan teks di tengah poligon. <br>
+    - <code>fill(kotak)</code> memberi warna pada bingkai, <code>draw(kotak)</code> membuat garis tepi.
+  </p>
+</div>
+
+<div class="card">
+  <h2>Inti Perhitungan & Prinsip Aplikasi Grafika Komputer</h2>
+  <ul>
+    <li>
+      <b>Transformasi Geometri:</b> Semua pergerakan, rotasi, dan perubahan ukuran gambar menggunakan rumus transformasi matriks, seperti:
+      <pre><code>
+[x']   [a  b]   [x]
+[y'] = [c  d] x [y]
+      </code></pre>
+      Untuk translasi: <code>x' = x + tx</code>, <code>y' = y + ty</code><br>
+      Untuk scaling: <code>x' = sx × x</code>, <code>y' = sy × y</code>
+    </li>
+    <li>
+      <b>Penggunaan Thread/Timer:</b> Supaya animasi berjalan otomatis (real-time), digunakan thread untuk update posisi dan me-refresh tampilan terus-menerus.
+    </li>
+    <li>
+      <b>Perhitungan Posisi dan Warna:</b> Posisi objek dihitung dengan rumus pergeseran, warna bisa diacak (misal dengan <code>Math.random()</code>), lalu seluruh perubahan digambar ulang di canvas (JPanel/HTML Canvas).
+    </li>
+  </ul>
+</div>
+<div class="card">
+  <h2>Demo Animasi Grafika Komputer “Manusia Berjalan & Teks Gelombang”</h2>
+  <p>
+    Manusia kartun bergerak dinamis, tangan dan kaki mengayun, dengan efek teks judul bergelombang warna-warni.<br>
+    <b>Start</b> untuk mulai, <b>Stop</b> untuk memberhentikan.
+  </p>
+  <button onclick="startAnimasiKeren()">Start</button>
+  <button onclick="stopAnimasiKeren()" style="margin-left:10px;">Stop</button>
+  <canvas id="kerenCanvas" width="500" height="250" style="margin-top:14px;background:#151a2d;display:block;border-radius:14px;"></canvas>
+</div>
+
+
+  </div>
+
+<script>
+let animKerenId = null, xChar = 50, arah = 1, langkah = 0, hue = 180, vx = 2;
+const yDasar = 170;
+const judul = "Hai Semua! kerenkan?";
+
+function drawChar(ctx, x, y, step) {
+  // Kepala (dengan sedikit bouncing)
+  let bounce = Math.sin(step/7) * 3;
+  ctx.save();
+  ctx.translate(x, y + bounce);
+  // Kepala
+  ctx.beginPath();
+  ctx.arc(0, -26, 14, 0, 2*Math.PI);
+  ctx.fillStyle = "#ffff";
+  ctx.shadowColor = "#ffff";
+  ctx.shadowBlur = 6;
+  ctx.fill();
+  ctx.shadowBlur = 0;
+  // Badan
+  ctx.strokeStyle = "#ECC09D";
+  ctx.lineWidth = 6;
+  ctx.beginPath();
+  ctx.moveTo(0, -12);
+  ctx.lineTo(0, 22);
+  ctx.stroke();
+  // Lengan kiri & kanan (mengayun)
+  let angleL = Math.sin(step/7) * 0.8;
+  let angleR = Math.cos(step/7) * 0.8;
+  ctx.strokeStyle = "#ECC09D";
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(-18*Math.cos(angleL), 15*Math.sin(angleL));
+  ctx.moveTo(0, 0);
+  ctx.lineTo(18*Math.cos(angleR), 15*Math.sin(angleR));
+  ctx.stroke();
+  // Kaki kiri & kanan (mengayun)
+  let kAngleL = Math.sin(step/7+Math.PI) * 0.6;
+  let kAngleR = Math.cos(step/7+Math.PI) * 0.6;
+  ctx.strokeStyle = "#ECC09D";
+  ctx.lineWidth = 5;
+  ctx.beginPath();
+  ctx.moveTo(0, 22);
+  ctx.lineTo(-13*Math.cos(kAngleL), 44+10*Math.abs(Math.sin(step/7)));
+  ctx.moveTo(0, 22);
+  ctx.lineTo(13*Math.cos(kAngleR), 44+10*Math.abs(Math.cos(step/7)));
+  ctx.stroke();
+  ctx.restore();
+}
+
+function drawWaveText(ctx, text, baseY, t) {
+  ctx.save();
+  ctx.font = "bold 27px 'Segoe UI', 'Poppins', sans-serif";
+  ctx.textBaseline = "middle";
+  let x = 60;
+  for (let i = 0; i < text.length; i++) {
+    const phase = t/9 + i/2;
+    const y = baseY + Math.sin(phase) * 17;
+    ctx.fillStyle = `hsl(${(hue + i*18)%360},88%,65%)`;
+    ctx.fillText(text[i], x, y);
+    x += ctx.measureText(text[i]).width + 2;
+  }
+  ctx.restore();
+}
+
+function drawBgGradient(ctx, w, h) {
+  const g = ctx.createLinearGradient(0, 0, w, h);
+  g.addColorStop(0, "#db1415");
+  g.addColorStop(1, "#0090ff");
+  ctx.fillStyle = g;
+  ctx.fillRect(0,0,w,h);
+}
+
+function animasiKeren() {
+  const canvas = document.getElementById("kerenCanvas");
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width, H = canvas.height;
+  drawBgGradient(ctx, W, H);
+
+  // Wave text
+  drawWaveText(ctx, judul, 50, langkah);
+
+  // Manusia
+  drawChar(ctx, xChar, yDasar, langkah);
+
+  // Update gerak
+  xChar += arah * vx;
+  langkah++;
+  hue += 1.5;
+  if (xChar > W - 50) arah = -1;
+  if (xChar < 50) arah = 1;
+
+  animKerenId = requestAnimationFrame(animasiKeren);
+}
+
+function startAnimasiKeren() {
+  if(animKerenId) return;
+  animKerenId = requestAnimationFrame(animasiKeren);
+}
+function stopAnimasiKeren() {
+  cancelAnimationFrame(animKerenId);
+  animKerenId = null;
+}
+</script>
+
+
+  <script src="/script.js"></script>
+  <script>
+    generateSidebarListTugas();
+    attachSidebarEvents();
+  </script>
+</body>
+</html>
